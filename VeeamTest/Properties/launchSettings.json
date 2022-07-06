@@ -1,8 +1,17 @@
 {
   "profiles": {
-    "VeeamTest": {
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {},
+      "distributionName": ""
+    },
+    "32 bytes block": {
       "commandName": "Project",
-      "commandLineArgs": "32 "
+      "commandLineArgs": "32 \"C:\\Users\\Maxim\\Downloads\\Voxel KT зубов Кудинов М Е.rar\""
+    },
+    "1024 bytes block": {
+      "commandName": "Project",
+      "commandLineArgs": "1024 \"C:\\Users\\Maxim\\Downloads\\Voxel KT зубов Кудинов М Е.rar\""
     }
   }
 }

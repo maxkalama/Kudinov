@@ -1,10 +1,14 @@
-﻿int blockSize = 0;
-string? filePath = null;
+﻿if (args.Length != 2)
+{
+    Console.Write("Usage (call exe with parameters): VeeamTest [block size] [file path]. Any key to exit...");
+    Console.ReadKey();
+    return;
+}
 
-if (args.Length != 2)
-    Console.WriteLine("Usage: VeeamTest [block size] [file path]");
+long blockSize = 0; //max file size is 32Gb (32 bil), assume max block size is the same, uint is only 4+ mil
+string? filePath = args[1];
 
-if (!int.TryParse(args[0], out blockSize) || blockSize <= 0)
+if (!long.TryParse(args[0], out blockSize) || blockSize <= 0)
     Console.WriteLine("Wrong block size. A positive integer is expected.");
 
 if (!File.Exists(filePath)) //checks file path for null or zero-length

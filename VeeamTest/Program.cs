@@ -7,7 +7,7 @@ if (args.Length != 2)
     return;
 }
 
-int blockSize = 0; //max file size is 32Gb (32 bil), assume max block size is the same, uint is only 4+ mil
+int blockSize = 0;
 string? filePath = args[1];
 
 if (!int.TryParse(args[0], out blockSize) || blockSize <= 0)

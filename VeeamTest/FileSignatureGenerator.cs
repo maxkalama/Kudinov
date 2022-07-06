@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace VeeamTest
 {
@@ -10,26 +11,40 @@ namespace VeeamTest
     {
         public void Generate(int blockSize, string filePath)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             IHashGenerator generator = new HashGenerator();
             var stream = File.OpenRead(filePath);
             var len = stream.Length;
             var blocksCount = len / blockSize + 1; // + 1 block part (last block)
 
-            Console.Write($"Processing file '{filePath}'"
+            Console.WriteLine($"Processing file '{filePath}'"
                 + $"({len / (1024 * 1024)}Mb)"
                 + $" with {blockSize} bytes blocks."
                 + $" That is {blocksCount} blocks.");
 
-            int concurrencyLevel = 10;
-            var results =  new ConcurrentDictionary<long, int>(concurrencyLevel, (int)blocksCount); //(int)blocksCount is initial, can be more than int 
-            var offset = 0;
-            for (int i = 0; i < blocksCount; i++)
+            var results =  new ConcurrentDictionary<long, byte[]>(); //(int)blocksCount is initial, can be more than int 
+            Thread? previousThread = null;
+            for (long i = 0; i < blocksCount; i++)
             {
                 var buffer = new byte[blockSize]; //allocate new memory
-                stream.Read(buffer, offset, blockSize);
-                generator.GetHashForBlock(blockNumber: i, ref results, ref buffer);
-                offset += blockSize;
-             }
+                stream.Read(buffer, 0, blockSize);
+                
+                //fix parameters for correct thread call
+                long blockNumber = i;
+                Thread? waitForThread = previousThread;
+                
+                var thread = new Thread(() => generator.GetHashForBlock(blockNumber, waitForThread, ref results, ref buffer));
+                thread.Name = $"Block {blockNumber}";
+                thread.Start();
+                previousThread = thread;
+            }
+
+            previousThread?.Join();
+
+            sw.Stop();
+            Console.WriteLine($"Generation has taken { sw.ElapsedMilliseconds / (decimal)1000} seconds.");
         }
     }
 }

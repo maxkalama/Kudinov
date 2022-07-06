@@ -1,4 +1,5 @@
-﻿using VeeamTest;
+﻿using System.Diagnostics;
+using VeeamTest;
 
 if (args.Length != 2)
 {
@@ -16,6 +17,7 @@ if (!int.TryParse(args[0], out blockSize) || blockSize <= 0)
 if (!File.Exists(filePath)) //checks file path for null or zero-length
     Console.WriteLine("Wrong file path. A path to an existing read-accessable file is expected.");
 
+
 try
 {
     IFileSignatureGenerator generator = new FileSignatureGenerator();
@@ -25,3 +27,6 @@ catch (Exception ex)
 {
     Console.WriteLine(ex.ToString());
 }
+
+Console.Write("Press Enter to close the window... ");
+Console.ReadLine();

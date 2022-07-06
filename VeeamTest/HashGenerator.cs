@@ -5,15 +5,19 @@ namespace VeeamTest
 {
     interface IHashGenerator
     {
-        void GetHashForBlock(long blockNumber, ref ConcurrentDictionary<long, int> results, ref byte[] buffer);
+        void GetHashForBlock(long blockNumber, Thread? waitForThread, ref ConcurrentDictionary<long, byte[]> results, ref byte[] buffer);
     }
 
     class HashGenerator : IHashGenerator
     {
-        public void GetHashForBlock(long blockNumber, ref ConcurrentDictionary<long, int> results, ref byte[] buffer)
+        public void GetHashForBlock(long blockNumber, Thread? waitForThread, ref ConcurrentDictionary<long, byte[]> results, ref byte[] buffer)
         {
-            var hash = SHA256.(buffer);
+            var hash = SHA256.HashData(buffer);
             results[blockNumber] = hash;
+            
+            waitForThread?.Join();
+
+            Console.WriteLine($"[{blockNumber}]{Convert.ToHexString(hash)}");
         }
     }
 }

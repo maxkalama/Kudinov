@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VeeamTest": {
+      "commandName": "Project",
+      "commandLineArgs": "32 "
+    }
+  }
+}

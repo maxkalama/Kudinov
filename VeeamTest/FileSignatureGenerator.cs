@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace VeeamTest
 {
@@ -28,7 +27,6 @@ namespace VeeamTest
                 + $" with {blockSize} bytes blocks."
                 + $" That is {blocksCount} blocks.");
 
-            var results =  new ConcurrentDictionary<long, byte[]>(); 
             Thread? previousThread = null;
             for (long i = 0; i < blocksCount; i++)
             {
@@ -39,7 +37,7 @@ namespace VeeamTest
                 long blockNumber = i;
                 Thread? waitForThread = previousThread;
                 
-                var thread = new Thread(() => generator.GetHashForBlock(blockNumber, waitForThread, ref results, ref buffer));
+                var thread = new Thread(() => generator.GetHashForBlock(blockNumber, waitForThread, ref buffer));
                 thread.Name = $"Block {blockNumber}";
                 thread.Start();
                 previousThread = thread;

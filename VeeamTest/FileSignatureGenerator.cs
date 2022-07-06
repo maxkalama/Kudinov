@@ -17,6 +17,10 @@ namespace VeeamTest
             IHashGenerator generator = new HashGenerator();
             var stream = File.OpenRead(filePath);
             var len = stream.Length;
+
+            if (len == 0)
+                throw new ApplicationException("File size is zero. Please try another one.");
+
             var blocksCount = len / blockSize + 1; // + 1 block part (last block)
 
             Console.WriteLine($"Processing file '{filePath}'"

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using VeeamTest;
+﻿using VeeamTest;
 
 if (args.Length != 2)
 {

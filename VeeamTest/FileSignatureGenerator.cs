@@ -28,7 +28,7 @@ namespace VeeamTest
                 + $" with {blockSize} bytes blocks."
                 + $" That is {blocksCount} blocks.");
 
-            var results =  new ConcurrentDictionary<long, byte[]>(); //(int)blocksCount is initial, can be more than int 
+            var results =  new ConcurrentDictionary<long, byte[]>(); 
             Thread? previousThread = null;
             for (long i = 0; i < blocksCount; i++)
             {

@@ -16,6 +16,8 @@
     <None Include="bin\Debug\net6.0\ref\VeeamTest.dll" />
     <None Include="bin\Debug\net6.0\VeeamTest.dll" />
     <None Include="bin\Debug\net6.0\VeeamTest.exe" />
+    <None Include="bin\Debug\net6.0\VeeamTest.exe - Ярлык 1Kb.lnk" />
+    <None Include="bin\Debug\net6.0\VeeamTest.exe - Ярлык 1Mb.lnk" />
     <None Include="bin\Debug\net6.0\VeeamTest.exe - Ярлык.lnk" />
     <None Include="bin\Debug\net6.0\VeeamTest.pdb" />
   </ItemGroup>

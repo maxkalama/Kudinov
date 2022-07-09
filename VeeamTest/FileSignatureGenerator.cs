@@ -14,7 +14,7 @@ namespace VeeamTest
             sw.Start();
 
             IHashGenerator generator = new HashGenerator();
-            var stream = File.OpenRead(filePath);
+            using var stream = File.OpenRead(filePath);
             var len = stream.Length;
 
             if (len == 0)

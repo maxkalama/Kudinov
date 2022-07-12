@@ -20,7 +20,10 @@ namespace VeeamTest
             if (len == 0)
                 throw new ApplicationException("File size is zero. Please try another one.");
 
-            var blocksCount = len / blockSize + 1; // + 1 block part (last block)
+            var blocksCount = len / blockSize;
+            
+            if (len % blockSize != 0)
+                blocksCount++; // + 1 block part (last block)
 
             Console.WriteLine($"Processing file '{filePath}'"
                 + $"({len / (1024 * 1024)}Mb)"

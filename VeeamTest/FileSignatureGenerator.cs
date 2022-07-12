@@ -36,7 +36,7 @@ namespace VeeamTest
                 var buffer = new byte[blockSize]; //allocate new memory
                 stream.Read(buffer, 0, blockSize);
                 
-                //fix parameters for correct thread call
+                //store parameters for correct thread call
                 long blockNumber = i;
                 Thread? waitForThread = previousThread;
                 

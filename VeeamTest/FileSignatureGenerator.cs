@@ -32,7 +32,6 @@ namespace VeeamTest
 
             int threadCount = 0;
             Thread? previousThread = null;
-            Thread.Sleep(5000);
             for (long i = 0; i < blocksCount; i++)
             {
                 var buffer = new byte[blockSize]; //allocate new memory

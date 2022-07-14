@@ -15,9 +15,9 @@ namespace VeeamTest
             Console.WriteLine($"[{blockNumber}] is working. threadCount {threadCount}.");
             var hash = SHA256.HashData(buffer);
             Thread.Sleep(1000);
+            
             waitForThread?.Join();
             Interlocked.Decrement(ref threadCount);
-
             Console.WriteLine($"[{blockNumber}]{Convert.ToHexString(hash)}. threadCount {threadCount}.");
         }
     }

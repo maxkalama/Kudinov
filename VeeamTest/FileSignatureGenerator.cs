@@ -30,17 +30,19 @@ namespace VeeamTest
                 + $" with {blockSize} bytes blocks."
                 + $" That is {blocksCount} blocks.");
 
+            int threadCount = 0;
             Thread? previousThread = null;
+            Thread.Sleep(5000);
             for (long i = 0; i < blocksCount; i++)
             {
                 var buffer = new byte[blockSize]; //allocate new memory
                 stream.Read(buffer, 0, blockSize);
-                
+
                 //store parameters for correct thread call
                 long blockNumber = i;
                 Thread? waitForThread = previousThread;
-                
-                var thread = new Thread(() => generator.GetHashForBlock(blockNumber, waitForThread, ref buffer));
+
+                var thread = new Thread(() => generator.GetHashForBlock(blockNumber, waitForThread, ref buffer, ref threadCount));
                 thread.Name = $"Block {blockNumber}";
                 thread.Start();
                 previousThread = thread;

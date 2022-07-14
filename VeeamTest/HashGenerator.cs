@@ -4,21 +4,21 @@ namespace VeeamTest
 {
     interface IHashGenerator
     {
-        void GetHashForBlock(long blockNumber, Thread? waitForThread, ref byte[] buffer, ref int threadCount);
+        void GetHashForBlock(long blockNumber, Task? waitTask, ref byte[] buffer, ref int taskCount);
     }
 
     class HashGenerator : IHashGenerator
     {
-        public void GetHashForBlock(long blockNumber, Thread? waitForThread, ref byte[] buffer, ref int threadCount)
+        public void GetHashForBlock(long blockNumber, Task? waitTask, ref byte[] buffer, ref int taskCount)
         {
-            Interlocked.Increment(ref threadCount);
-            Console.WriteLine($"[{blockNumber}] is working. threadCount {threadCount}.");
+            Interlocked.Increment(ref taskCount);
+            Console.WriteLine($"[{blockNumber}] is working. taskCount {taskCount}.");
             var hash = SHA256.HashData(buffer);
             Thread.Sleep(1000);
-            waitForThread?.Join();
-            Interlocked.Decrement(ref threadCount);
+            waitTask?.Wait();
+            Interlocked.Decrement(ref taskCount);
 
-            Console.WriteLine($"[{blockNumber}]{Convert.ToHexString(hash)}. threadCount {threadCount}.");
+            Console.WriteLine($"[{blockNumber}]{Convert.ToHexString(hash)}. taskCount {taskCount}.");
         }
     }
 }

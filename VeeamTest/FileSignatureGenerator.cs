@@ -30,8 +30,9 @@ namespace VeeamTest
                 + $" with {blockSize} bytes blocks."
                 + $" That is {blocksCount} blocks.");
 
-            int taskCount = 0;
-            Task? task = null;
+            int threadCount = 0;
+            Thread? previousThread = null;
+            Thread.Sleep(5000);
             for (long i = 0; i < blocksCount; i++)
             {
                 var buffer = new byte[blockSize]; //allocate new memory
@@ -39,11 +40,15 @@ namespace VeeamTest
 
                 //store parameters for correct thread call
                 long blockNumber = i;
-                Task? waitTask = task;
-                task = Task.Run(() => generator.GetHashForBlock(blockNumber, waitTask, ref buffer, ref taskCount));
+                Thread? waitForThread = previousThread;
+
+                var thread = new Thread(() => generator.GetHashForBlock(blockNumber, waitForThread, ref buffer, ref threadCount));
+                thread.Name = $"Block {blockNumber}";
+                thread.Start();
+                previousThread = thread;
             }
 
-            task?.Wait();
+            previousThread?.Join();
 
             sw.Stop();
             Console.WriteLine($"Generation has taken { sw.ElapsedMilliseconds / (decimal)1000} seconds.");

@@ -11,6 +11,7 @@ namespace VeeamTest
     {
         public void GetHashForBlock(long blockNumber, Thread? waitForThread, ref byte[] buffer)
         {
+            Console.WriteLine($"[{blockNumber}] is working.");
             var hash = SHA256.HashData(buffer);
             waitForThread?.Join();
 

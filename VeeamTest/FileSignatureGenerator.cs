@@ -32,9 +32,6 @@ namespace VeeamTest
 
             int taskCount = 0;
             Task? task = null;
-            ThreadPool.GetMinThreads(out int workerThreads, out int completionPortThreads);
-            Console.WriteLine($"Min workerThreads {workerThreads}, completionPortThreads {completionPortThreads}");
-            ThreadPool.SetMinThreads(100, 100); //task scheduler to allow threads number more than actual CPUs number
             for (long i = 0; i < blocksCount; i++)
             {
                 var buffer = new byte[blockSize]; //allocate new memory
